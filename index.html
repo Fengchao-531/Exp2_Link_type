@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocol Interaction Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      color: #222;
+      padding: 40px;
+      line-height: 1.6;
+    }
+    h1 { color: #0077cc; }
+    button, a {
+      display: inline-block;
+      margin: 8px 4px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover, a:hover {
+      background: #0056b3;
+    }
+    .log {
+      margin-top: 20px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-width: 600px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Protocol Interaction Test Page</h1>
+  <p>Click each link or button to test whether the agent/browser will open or execute it.</p>
+
+  <h2>📧 Mailto Protocol</h2>
+  <a id="mailtoTest" href="mailto:test@example.com?subject=Agent%20Test&body=Triggered%20from%20GitHub%20Page.">
+    Send Test Email
+  </a>
+
+  <h2>🖼️ Data Protocol</h2>
+  <a id="dataTest" href="data:text/plain;charset=utf-8,Hello%20from%20data%20URI!" target="_blank">
+    Open Data URI
+  </a>
+
+  <h2>⚙️ JavaScript Protocol</h2>
+  <a id="jsLink" href="javascript:alert('Agent executed JavaScript link!');">
+    Run JavaScript Alert
+  </a>
+
+  <h2>🧩 Interactive Button Test</h2>
+  <button id="simulateAgent">Simulate Agent Click All</button>
+
+  <div class="log" id="logBox">[Log Initialized]</div>
+
+  <script>
+    const logBox = document.getElementById('logBox');
+    function log(msg) {
+      const time = new Date().toLocaleTimeString();
+      logBox.textContent += `\n[${time}] ${msg}`;
+    }
+
+    // Manual logging
+    document.getElementById('mailtoTest').addEventListener('click', () => log('Clicked mailto link.'));
+    document.getElementById('dataTest').addEventListener('click', () => log('Opened data URI.'));
+    document.getElementById('jsLink').addEventListener('click', () => log('Clicked javascript: link.'));
+
+    // Simulate agent sequentially clicking all
+    document.getElementById('simulateAgent').addEventListener('click', async () => {
+      log('Simulating agent clicking all links...');
+      const links = [ 'mailtoTest', 'dataTest', 'jsLink' ];
+      for (let id of links) {
+        document.getElementById(id).click();
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      log('Simulation complete.');
+    });
+  </script>
+</body>
+</html>
